@@ -1,16 +1,18 @@
 import { createContext, useContext, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const AuthProduct = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [productList, setProductList] = useState([
     {
-      id: 1,
+      id: uuidv4(),
+      lot: "1",
       details:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vel ipsam iure, sequi, tenetur obcaecati adipisci nihil consectetur mollitia molestias, architecto doloremque. Delectus hic reiciendis ipsa amet obcaecati est distinctio!",
       endTime: "10:00pm",
       startTime: "10:00am",
-      isComplete: false,
+      badge: "New",
     },
   ]);
 
