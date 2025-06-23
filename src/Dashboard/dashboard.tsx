@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-provider";
 
 const Dashboard = () => {
   const { user, setUser, isLoggedIn, setIsLoggedIn, loading, setLoading } =

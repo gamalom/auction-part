@@ -1,7 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-
-const AuthProduct = createContext();
+import { AuthProduct } from "./product-context";
 
 export const ProductProvider = ({ children }) => {
   const [productList, setProductList] = useState([
@@ -36,5 +35,3 @@ export const ProductProvider = ({ children }) => {
 
   return <AuthProduct.Provider value={value}>{children}</AuthProduct.Provider>;
 };
-
-export const useProduct = () => useContext(AuthProduct);

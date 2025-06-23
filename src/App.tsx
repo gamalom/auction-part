@@ -1,15 +1,15 @@
-import { AuthProvider } from "./context/auth-context";
+import { AuthProvider } from "./context/auth-provider";
 import { ProductProvider } from "./context/product-provider";
 import Dashboard from "./Dashboard/dashboard";
 import ProductCard from "./product/product-card";
 
 function App() {
   return (
-    <ProductProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ProductProvider>
         <ProductCard />
-      </AuthProvider>
-    </ProductProvider>
+      </ProductProvider>
+    </AuthProvider>
   );
 }
 
