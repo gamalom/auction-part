@@ -2,29 +2,17 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth-context";
 
 const Dashboard = () => {
-  const { user, setUser, isLogIn, setIsLogIn, loading, setLoading } = useAuth();
-
-  const logIn = (e) => {
-    e.preventDefault();
-    setIsLogIn(true);
-    setUser({ Name: "John Doe" });
-  };
-
-  const logOut = (e) => {
-    e.preventDefault();
-    setIsLogIn(false);
-    setUser(null);
-  };
+  const { isLoggedIn, logout, currentUser } = useAuth();
 
   return (
     <div>
-      <span>user is currently {isLogIn ? "login" : "logOut"}</span>
-      {isLogIn ? <span>user name is {user?.Name}</span> : null}
+      <span>user is currently {isLoggedIn ? "login" : "logOut"}</span>
+      {isLoggedIn ? <span>user name is {currentUser?.firstName}</span> : null}
       <br />
-      {isLogIn ? (
-        <Button onClick={logOut}>Logout</Button>
+      {isLoggedIn ? (
+        <Button onClick={logout}>Logout</Button>
       ) : (
-        <Button onClick={logIn}>Login</Button>
+        <span>Please log in to access the dashboard.</span>
       )}
     </div>
   );

@@ -1,12 +1,10 @@
 import { useFormik } from "formik";
 import { object, string } from "yup";
 import { useNavigate } from "react-router-dom";
-
-import { useAuth } from "@/context/auth-context";
 import Button from "@/register-form/button";
 import Input from "@/register-form/input";
 
-const registerSchema = object({
+const loginSchema = object({
   email: string().required("Email is required").email("Invalid Email"),
   password: string().required("Password is required"),
 });
@@ -17,22 +15,38 @@ const formikInitialValue = {
 };
 
 export default function Login() {
-  const { login } = useAuth();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: formikInitialValue,
-    validationSchema: registerSchema,
-    onSubmit: (values, { resetForm }) => {
-      const success = login(values);
-      if (success) {
+    validationSchema: loginSchema,
+    onSubmit: (values, { resetForm, setStatus }) => {
+      setStatus("");
+      // Get users from localStorage
+      const stored = localStorage.getItem("users");
+      const users = stored ? JSON.parse(stored) : [];
+      const foundUser = users.find(
+        (u: { email: string; password: string }) =>
+          u.email === values.email && u.password === values.password
+      );
+      if (foundUser) {
         resetForm();
         navigate("/products");
+      } else {
+        setStatus("Invalid email or password. Please try again.");
       }
     },
   });
 
-  const { values, handleSubmit, handleChange, handleBlur, errors, touched } =
-    formik;
+  const {
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    errors,
+    touched,
+    status,
+    isSubmitting,
+  } = formik;
 
   return (
     <form
@@ -60,7 +74,11 @@ export default function Login() {
         error={touched.password && errors.password}
       />
 
-      <Button type="submit">Login</Button>
+      {status && <div className="text-red-500 text-sm mb-2">{status}</div>}
+
+      <Button type="submit" disabled={isSubmitting}>
+        Login
+      </Button>
     </form>
   );
 }

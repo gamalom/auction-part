@@ -9,9 +9,9 @@ export const ProductProvider = ({ children }) => {
       id: uuidv4(),
       details:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vel ipsam iure, sequi, tenetur obcaecati adipisci nihil consectetur mollitia molestias, architecto doloremque. Delectus hic reiciendis ipsa amet obcaecati est distinctio!",
-      endTime: "10:00pm",
-      startTime: "10:00am",
-      badge: "Upcoming",
+      pusblishBy: "Sunil Gamal",
+      price: "1000",
+      badge: "sold",
     },
     {
       id: uuidv4(),
@@ -37,7 +37,7 @@ export const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     const products = JSON.parse(localStorage.getItem("productList"));
-    if (products && products.length > 0) {
+    if (Array.isArray(products) && products.length > 0) {
       setProductList(products);
     }
   }, []);

@@ -6,19 +6,20 @@ import ProductCard from "./product/product-card";
 import Login from "./login-form/login";
 import { Routes, Route } from "react-router-dom";
 
+{
+  /* <AuthProvider>
+  <ProductProvider></ProductProvider>
+</AuthProvider>; */
+}
 function App() {
   return (
-    <AuthProvider>
-      <ProductProvider>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/products" element={<ProductCard />} />
-          <Route path="*" element={<Register />} />
-        </Routes>
-      </ProductProvider>
-    </AuthProvider>
+    <Routes>
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/products" element={<ProductCard />} />
+      <Route path="*" element={<Register />} />
+    </Routes>
   );
 }
 

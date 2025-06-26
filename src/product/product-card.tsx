@@ -1,8 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { useProduct } from "@/context/product-context";
+import { useEffect, useState } from "react";
 
 export default function ProductCard() {
-  const { productList } = useProduct();
+  const [productList, setProductList] = useState([]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("productList");
+    const products = stored ? JSON.parse(stored) : [];
+    setProductList(products);
+  }, []);
 
   if (!productList || productList.length === 0) {
     return <div>No products available.</div>;
@@ -18,18 +24,17 @@ export default function ProductCard() {
           >
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-gray-500 font-bold">
-                Lot: {product.lot || "-"}
+                Lot: {product.lot || product.pusblishBy || "N/A"}
               </span>
               <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-semibold">
-                {product.badge}
+                {product.badge || "-"}
               </span>
             </div>
-
-            <div className="text-gray-800  mb-2">{product.details}</div>
-
+            <div className="text-gray-800  mb-2">
+              {product.details || "No details"}
+            </div>
             <div className="text-sm text-gray-600 ">
-              <p className="font-bold  ">Start Time: {product.startTime}</p>
-              <p className="font-bold  ">End Time: {product.endTime}</p>
+              <p className="font-bold  ">Sale Price: {product.price || "-"}</p>
               <Button className="my-2 ">Get Details</Button>
             </div>
           </div>

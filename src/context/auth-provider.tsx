@@ -15,20 +15,28 @@ export const AuthProvider = ({ children }) => {
   }, [users]);
 
   const register = (userData) => {
-    setUsers((prevUsers) => [...prevUsers, userData]);
+    setUsers((prevUsers) => {
+      const updatedUsers = [...prevUsers, userData];
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+      return updatedUsers;
+    });
   };
 
   const login = ({ email, password }) => {
     const stored = localStorage.getItem("users");
     const usersFromStorage = stored ? JSON.parse(stored) : [];
+    console.log("Trying to login with:", email, password);
+    console.log("Users in localStorage:", usersFromStorage);
     const foundUser = usersFromStorage.find(
       (u) => u.email === email && u.password === password
     );
     if (foundUser) {
       setCurrentUser(foundUser);
       setIsLoggedIn(true);
+      console.log("Login successful");
       return true;
     } else {
+      console.log("Login failed: Invalid credentials");
       alert("Invalid credentials");
       return false;
     }

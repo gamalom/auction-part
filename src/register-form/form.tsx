@@ -43,6 +43,14 @@ export default function Register() {
     onSubmit: (values, { resetForm }) => {
       const { confirmPassword, ...userData } = values;
       register(userData);
+
+      const stored = localStorage.getItem("users");
+      const users = stored ? JSON.parse(stored) : [];
+      if (!users.find((u) => u.email === userData.email)) {
+        users.push(userData);
+        localStorage.setItem("users", JSON.stringify(users));
+      }
+      console.log("User registered successfully", userData);
       resetForm();
       navigate("/login");
     },
