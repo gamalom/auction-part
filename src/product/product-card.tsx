@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useProduct } from "@/context/product-provider";
+import { useProduct } from "@/context/product-context";
 
 export default function ProductCard() {
   const { productList } = useProduct();

@@ -9,6 +9,7 @@ export const AuthContext = createContext({
   setLoading: () => {},
   login: () => {},
   logout: () => {},
+  register: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);

@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { AuthProduct } from "./product-context";
+import { createContext, useContext, useEffect, useState } from "react";
+
+const AuthProduct = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [productList, setProductList] = useState([
     {
-      id: uuidv4(),
-      lot: "1",
+      id: 1,
       details:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vel ipsam iure, sequi, tenetur obcaecati adipisci nihil consectetur mollitia molestias, architecto doloremque. Delectus hic reiciendis ipsa amet obcaecati est distinctio!",
       endTime: "10:00pm",
       startTime: "10:00am",
-      badge: "New",
+      badge: "Upcoming",
     },
   ]);
 
@@ -27,6 +26,17 @@ export const ProductProvider = ({ children }) => {
     );
   };
 
+  useEffect(() => {
+    const products = JSON.parse(localStorage.getItem("productList"));
+    if (products && products.length > 0) {
+      setProductList(products);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("productList", JSON.stringify(productList));
+  }, [productList]);
+
   const value = {
     productList,
     addProduct,
@@ -35,3 +45,5 @@ export const ProductProvider = ({ children }) => {
 
   return <AuthProduct.Provider value={value}>{children}</AuthProduct.Provider>;
 };
+
+export const useProduct = () => useContext(AuthProduct);
