@@ -24,29 +24,20 @@ const formikInitialValue = {
 };
 
 export default function Login() {
-  const { setIsLoggedIn } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: formikInitialValue,
     validationSchema: loginSchema,
-    onSubmit: (values, { resetForm, setStatus }) => {
-      setStatus("");
-      const stored = localStorage.getItem("users");
-      const users = stored ? JSON.parse(stored) : [];
-
-      const foundUser = users.find(
-        (user: { email: string; password: string }) =>
-          user.email === values.email && user.password === values.password
-      );
-
-      if (foundUser) {
+    onSubmit: (values, { resetForm }) => {
+      const response = login({
+        email: values.email,
+        password: values.password,
+      });
+      if (response) {
         resetForm();
-        setIsLoggedIn(true);
         navigate("/products");
-      } else {
-        setIsLoggedIn(false);
-        setStatus("Invalid email or password. Please try again.");
       }
     },
   });

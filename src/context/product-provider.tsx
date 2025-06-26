@@ -28,7 +28,6 @@ export const ProductProvider = ({ children }) => {
   const addProduct = (newProduct) => {
     setProductList((prev) => [...prev, newProduct]);
     console.log("Adding new product:", newProduct);
-    console.log("Updated product list:", updated);
   };
 
   const updateProduct = (id, updatedData) => {

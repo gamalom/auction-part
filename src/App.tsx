@@ -11,9 +11,9 @@ import ProductForm from "./product/product-form";
 function App() {
   return (
     <>
-      <Navbar />
       <AuthProvider>
         <ProductProvider>
+          <Navbar />
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
