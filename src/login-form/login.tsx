@@ -1,8 +1,17 @@
 import { useFormik } from "formik";
 import { object, string } from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Button from "@/register-form/button";
 import Input from "@/register-form/input";
+
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useAuth } from "@/context/auth-context";
 
 const loginSchema = object({
   email: string().required("Email is required").email("Invalid Email"),
@@ -15,23 +24,28 @@ const formikInitialValue = {
 };
 
 export default function Login() {
+  const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: formikInitialValue,
     validationSchema: loginSchema,
     onSubmit: (values, { resetForm, setStatus }) => {
       setStatus("");
-      // Get users from localStorage
       const stored = localStorage.getItem("users");
       const users = stored ? JSON.parse(stored) : [];
+
       const foundUser = users.find(
-        (u: { email: string; password: string }) =>
-          u.email === values.email && u.password === values.password
+        (user: { email: string; password: string }) =>
+          user.email === values.email && user.password === values.password
       );
+
       if (foundUser) {
         resetForm();
+        setIsLoggedIn(true);
         navigate("/products");
       } else {
+        setIsLoggedIn(false);
         setStatus("Invalid email or password. Please try again.");
       }
     },
@@ -49,36 +63,53 @@ export default function Login() {
   } = formik;
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="shadow-sm rounded-xl max-w-[400px] mx-auto border px-4 py-4"
-    >
-      <Input
-        id="email"
-        label="Email"
-        value={values.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        name="email"
-        error={touched.email && errors.email}
-      />
+    <Card className="max-w-[400px] mx-auto mt-10">
+      <form onSubmit={handleSubmit}>
+        <CardHeader>
+          <CardTitle className="text-center text-xl">Login Form</CardTitle>
+        </CardHeader>
 
-      <Input
-        id="password"
-        label="Password"
-        type="password"
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={values.password}
-        name="password"
-        error={touched.password && errors.password}
-      />
+        <CardContent>
+          <Input
+            id="email"
+            label="Email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.email && errors.email}
+          />
 
-      {status && <div className="text-red-500 text-sm mb-2">{status}</div>}
+          <Input
+            id="password"
+            label="Password"
+            name="password"
+            type="password"
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.password && errors.password}
+          />
 
-      <Button type="submit" disabled={isSubmitting}>
-        Login
-      </Button>
-    </form>
+          {status && <div className="text-red-500 text-sm mt-2">{status}</div>}
+        </CardContent>
+
+        <CardFooter className="flex flex-col gap-4">
+          <Button type="submit" disabled={isSubmitting} className="w-full">
+            Login
+          </Button>
+
+          <div className="text-center text-sm">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="underline text-blue-600 hover:text-blue-800"
+            >
+              Sign up
+            </Link>
+          </div>
+        </CardFooter>
+      </form>
+    </Card>
   );
 }

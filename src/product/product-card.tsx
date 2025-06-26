@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
+
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 export default function ProductCard() {
   const [productList, setProductList] = useState([]);
@@ -24,18 +26,18 @@ export default function ProductCard() {
           >
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-gray-500 font-bold">
-                Lot: {product.lot || product.pusblishBy || "N/A"}
+                ProductImg: {product.id}
               </span>
               <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-semibold">
-                {product.badge || "-"}
+                {product.badge}
               </span>
             </div>
-            <div className="text-gray-800  mb-2">
-              {product.details || "No details"}
-            </div>
+            <div className="text-gray-800  mb-2">{product.details}</div>
             <div className="text-sm text-gray-600 ">
-              <p className="font-bold  ">Sale Price: {product.price || "-"}</p>
-              <Button className="my-2 ">Get Details</Button>
+              <p className="font-bold  ">Sale Price: {product.price}</p>
+              <Link to={`/product/${product.id}`}>
+                <Button className="mt-2 ">View Product</Button>
+              </Link>
             </div>
           </div>
         ))}

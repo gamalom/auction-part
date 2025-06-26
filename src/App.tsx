@@ -5,21 +5,27 @@ import Register from "./register-form/form";
 import ProductCard from "./product/product-card";
 import Login from "./login-form/login";
 import { Routes, Route } from "react-router-dom";
+import Navbar from "./navbar/navbar";
+import ProductForm from "./product/product-form";
 
-{
-  /* <AuthProvider>
-  <ProductProvider></ProductProvider>
-</AuthProvider>; */
-}
 function App() {
   return (
-    <Routes>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/products" element={<ProductCard />} />
-      <Route path="*" element={<Register />} />
-    </Routes>
+    <>
+      <Navbar />
+      <AuthProvider>
+        <ProductProvider>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/products" element={<ProductCard />} />
+            <Route path="/addProduct" element={<ProductForm />} />
+            <Route path="/" element={<ProductCard />} />
+          </Routes>
+        </ProductProvider>
+      </AuthProvider>
+      ;
+    </>
   );
 }
 

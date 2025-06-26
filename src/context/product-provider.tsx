@@ -1,7 +1,6 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-
-const AuthProduct = createContext();
+import { AuthProduct } from "./product-context";
 
 export const ProductProvider = ({ children }) => {
   const [productList, setProductList] = useState([
@@ -9,22 +8,27 @@ export const ProductProvider = ({ children }) => {
       id: uuidv4(),
       details:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vel ipsam iure, sequi, tenetur obcaecati adipisci nihil consectetur mollitia molestias, architecto doloremque. Delectus hic reiciendis ipsa amet obcaecati est distinctio!",
-      pusblishBy: "Sunil Gamal",
+      publishBy: "Sunil Gamal",
       price: "1000",
       badge: "sold",
+      categories: "electronics",
     },
     {
       id: uuidv4(),
       details:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus vel ipsam iure, sequi, tenetur obcaecati adipisci nihil consectetur mollitia molestias, architecto doloremque. Delectus hic reiciendis ipsa amet obcaecati est distinctio!",
-      endTime: "10:00pm",
-      startTime: "10:00am",
-      badge: "Upcoming",
+      publishBy: "Sunil Gamal",
+      price: "1000",
+      categories: "fashion",
+      badge: "sold",
     },
   ]);
+  const [search, setSearch] = useState("");
 
   const addProduct = (newProduct) => {
     setProductList((prev) => [...prev, newProduct]);
+    console.log("Adding new product:", newProduct);
+    console.log("Updated product list:", updated);
   };
 
   const updateProduct = (id, updatedData) => {
@@ -50,6 +54,8 @@ export const ProductProvider = ({ children }) => {
     productList,
     addProduct,
     updateProduct,
+    search,
+    setSearch,
   };
 
   return <AuthProduct.Provider value={value}>{children}</AuthProduct.Provider>;

@@ -6,8 +6,9 @@ export const AuthProvider = ({ children }) => {
     const stored = localStorage.getItem("users");
     return stored ? JSON.parse(stored) : [];
   });
-  const [currentUser, setCurrentUser] = useState(null);
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -15,50 +16,38 @@ export const AuthProvider = ({ children }) => {
   }, [users]);
 
   const register = (userData) => {
-    setUsers((prevUsers) => {
-      const updatedUsers = [...prevUsers, userData];
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      return updatedUsers;
-    });
+    const updatedUsers = [...users, userData];
+    setUsers(updatedUsers);
   };
 
   const login = ({ email, password }) => {
-    const stored = localStorage.getItem("users");
-    const usersFromStorage = stored ? JSON.parse(stored) : [];
-    console.log("Trying to login with:", email, password);
-    console.log("Users in localStorage:", usersFromStorage);
-    const foundUser = usersFromStorage.find(
+    const foundUser = users.find(
       (u) => u.email === email && u.password === password
     );
     if (foundUser) {
-      setCurrentUser(foundUser);
       setIsLoggedIn(true);
-      console.log("Login successful");
       return true;
     } else {
-      console.log("Login failed: Invalid credentials");
       alert("Invalid credentials");
       return false;
     }
   };
 
   const logout = () => {
-    setCurrentUser(null);
     setIsLoggedIn(false);
   };
 
   const value = {
     users,
     setUsers,
-    currentUser,
-    setCurrentUser,
+
     register,
+    login,
+    logout,
     isLoggedIn,
     setIsLoggedIn,
     loading,
     setLoading,
-    login,
-    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
