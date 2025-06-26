@@ -5,4 +5,5 @@ export const AuthProduct = createContext({
   addProduct: () => {},
   updateProduct: () => {},
 });
+
 export const useProduct = () => useContext(AuthProduct);
